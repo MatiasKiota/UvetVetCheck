@@ -1,0 +1,23 @@
+VETCHECK LOCAL — UVet Metalúrgico
+
+COMO ABRIR
+1. Extraia a pasta VetCheck-local.
+2. Abra a pasta no VS Code.
+3. Abra index.html com Live Server (ou abra o arquivo no navegador).
+4. Primeiro acesso administrativo: perfil "Administrativo", senha inicial: uvet2026
+   Altere a senha em Administração > Configurações assim que entrar.
+
+SENHAS INICIAIS DOS FUNCIONÁRIOS: 1234
+Altere-as em Administração > Funcionários e acessos.
+
+DADOS
+- Os dados são salvos no armazenamento local do navegador deste computador.
+- Não há banco de dados nem sincronização com outros computadores.
+- Não limpe os dados do navegador: isso pode apagar os registros.
+- Faça cópias de segurança frequentes em Administração > Configurações.
+- A senha local não é uma proteção forte contra alguém que tenha acesso técnico ao computador.
+
+LIMITAÇÕES
+- Os relatórios são exportados em JSON; o navegador não cria automaticamente pastas por ano/mês.
+- E-mails automáticos não estão incluídos.
+- Evite registrar informações clínicas identificáveis de pacientes neste protótipo.

@@ -1,0 +1,453 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VetCheck | UVet </title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">V</div>
+      <div>
+        <b>VetCheck</b>
+        <small>UVet • Metalúrgico</small>
+      </div>
+    </div>
+
+    <div class="side-caption">SISTEMA INTERNO</div>
+
+    <button class="side-link active" id="navHome">⌂ &nbsp; Início</button>
+    <button class="side-link" id="navProtocols">✚ &nbsp; Protocolos veterinários</button>
+    <button class="side-link hidden" id="navAdmin">⚙ &nbsp; Administração</button>
+
+    <div class="side-bottom">
+      ● Armazenamento local neste computador
+    </div>
+  </aside>
+
+  <main>
+
+    <header class="topbar">
+      <div>
+        <div class="overline">CLÍNICA VETERINÁRIA • UNIDADE METALÚRGICO</div>
+        <h1 id="heading">Bem-vinda ao VetCheck</h1>
+      </div>
+
+      <div class="top-right">
+        <span id="dateNow"></span>
+        <button id="logout" class="quiet hidden">Sair</button>
+      </div>
+    </header>
+
+    <!-- LOGIN -->
+
+    <section id="loginScreen" class="login-wrap">
+
+      <div class="intro">
+        <span class="tag">ORGANIZAÇÃO DA EQUIPE</span>
+
+        <h2>Rotinas claras.<br><em>Equipe alinhada.</em></h2>
+
+        <p>
+          Entre para consultar suas responsabilidades,
+          registrar as atividades e consultar os protocolos
+          veterinários da clínica.
+        </p>
+
+        <div class="features">
+          <div><b>01</b> Checklists individuais</div>
+          <div><b>02</b> Histórico por data</div>
+          <div><b>03</b> Protocolos veterinários</div>
+          <div><b>04</b> Administração interna</div>
+        </div>
+      </div>
+
+      <form id="loginForm" class="panel login-panel">
+
+        <div class="panel-symbol">✳</div>
+
+        <h3>Acessar o VetCheck</h3>
+        <p>Selecione seu perfil e informe sua senha.</p>
+
+        <label for="person">Perfil</label>
+        <select id="person"></select>
+
+        <label for="pin">Senha de acesso</label>
+        <input
+          id="pin"
+          type="password"
+          placeholder="Senha"
+          required
+        >
+
+        <button class="primary full" type="submit">
+          Entrar <span>→</span>
+        </button>
+
+        <p class="hint" id="loginError" role="status"></p>
+
+        <p class="micro">
+          O acesso administrativo é único e permite gerenciar
+          todo o sistema.
+        </p>
+
+      </form>
+    </section>
+
+    <!-- SISTEMA -->
+
+    <section id="appScreen" class="hidden">
+
+      <div class="welcome">
+        <div>
+          <div class="overline">ÁREA DE TRABALHO</div>
+          <h2 id="welcome"></h2>
+          <p id="subWelcome"></p>
+        </div>
+
+        <span id="roleBadge" class="role-badge"></span>
+      </div>
+
+      <!-- CHECKLIST DO FUNCIONÁRIO -->
+
+      <section id="employeeView">
+
+        <div class="section-title">
+          <div>
+            <div class="overline">ROTINA DO EXPEDIENTE</div>
+            <h3>Meu checklist</h3>
+          </div>
+
+          <span id="workDate" class="muted"></span>
+        </div>
+
+        <div id="checklist" class="checklist"></div>
+
+        <div class="notes panel">
+          <label for="notes">
+            Observações / tarefas que ficaram pendentes
+          </label>
+
+          <textarea
+            id="notes"
+            rows="3"
+            placeholder="Descreva o que não foi realizado e o motivo..."
+          ></textarea>
+        </div>
+
+        <div class="action-row">
+          <span id="progressText" class="muted">
+            0 de 0 concluídas
+          </span>
+
+          <button id="saveChecklist" class="primary">
+            Salvar checklist do dia
+          </button>
+        </div>
+
+        <div id="saveStatus" class="status"></div>
+
+      </section>
+
+      <!-- PROTOCOLOS: ACESSÍVEL A TODOS -->
+
+      <section id="protocolView" class="hidden">
+
+        <div class="section-title">
+          <div>
+            <div class="overline">CONSULTA VETERINÁRIA</div>
+            <h3>Biblioteca de protocolos</h3>
+            <p class="muted">
+              Pesquise doenças, sintomas e orientações cadastradas.
+            </p>
+          </div>
+
+          <button id="addProtocol" class="primary small hidden">
+            + Novo protocolo
+          </button>
+        </div>
+
+        <div class="protocol-search-wrap">
+          <input
+            type="search"
+            id="protocolSearch"
+            placeholder="Pesquisar doença, sintoma ou condição..."
+          >
+        </div>
+
+        <div class="protocol-notice">
+          <b>Importante:</b>
+          os protocolos são materiais de consulta interna.
+          Medicamentos, doses e condutas devem ser conferidos
+          e aprovados pela médica-veterinária responsável.
+        </div>
+
+        <div id="protocolList"></div>
+
+        <!-- EDITOR ADMINISTRATIVO -->
+
+        <div id="protocolEditor" class="hidden panel">
+
+          <h3 id="protocolEditorTitle">Cadastrar protocolo</h3>
+
+          <form id="protocolForm">
+
+            <label for="protocolName">Nome da condição</label>
+            <input
+              id="protocolName"
+              required
+              placeholder="Ex.: Otite"
+            >
+
+            <label for="protocolSpecies">Espécie</label>
+            <select id="protocolSpecies">
+              <option>Cães</option>
+              <option>Gatos</option>
+              <option>Cães e gatos</option>
+            </select>
+
+            <label for="protocolSymptoms">
+              Sintomas e sinais clínicos
+            </label>
+            <textarea id="protocolSymptoms"></textarea>
+
+            <label for="protocolProcedures">
+              Avaliação e procedimentos na clínica
+            </label>
+            <textarea id="protocolProcedures"></textarea>
+
+            <label for="protocolMedication">
+              Medicamentos e condutas aprovados pela veterinária
+            </label>
+            <textarea id="protocolMedication"></textarea>
+
+            <label for="protocolHome">
+              Orientações para tratamento em casa
+            </label>
+            <textarea id="protocolHome"></textarea>
+
+            <label for="protocolReturn">
+              Quando solicitar retorno?
+            </label>
+            <textarea id="protocolReturn"></textarea>
+
+            <label for="protocolNotes">
+              Observações e sinais de alerta
+            </label>
+            <textarea id="protocolNotes"></textarea>
+
+            <label for="protocolReviewer">
+              Responsável pela revisão veterinária
+            </label>
+            <input
+              id="protocolReviewer"
+              placeholder="Nome da médica-veterinária"
+            >
+
+            <div class="action-row">
+              <button
+                type="button"
+                class="secondary"
+                id="cancelProtocol"
+              >
+                Cancelar
+              </button>
+
+              <button type="submit" class="primary">
+                Salvar protocolo
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </section>
+
+      <!-- ADMINISTRAÇÃO -->
+
+      <section id="adminView" class="hidden">
+
+        <div class="section-title">
+          <div>
+            <div class="overline">CONTROLE INTERNO</div>
+            <h3>Administração</h3>
+          </div>
+        </div>
+
+        <div class="admin-tabs">
+
+          <button class="tab active" data-tab="people">
+            Funcionários e acessos
+          </button>
+
+          <button class="tab" data-tab="tasks">
+            Tarefas
+          </button>
+
+          <button class="tab" data-tab="tracking">
+            Acompanhamento diário
+          </button>
+
+          <button class="tab" data-tab="history">
+            Histórico
+          </button>
+
+          <button class="tab" data-tab="settings">
+            Configurações
+          </button>
+
+        </div>
+
+        <!-- FUNCIONÁRIOS -->
+
+        <div id="tab-people" class="tab-content">
+
+          <div class="section-title compact">
+            <h3>Equipe cadastrada</h3>
+
+            <button class="primary small" id="addPerson">
+              + Funcionário
+            </button>
+          </div>
+
+          <div id="peopleList" class="people-list"></div>
+
+        </div>
+
+        <!-- TAREFAS -->
+
+        <div id="tab-tasks" class="tab-content hidden">
+
+          <div class="section-title compact">
+            <h3>Editar tarefas por funcionário</h3>
+          </div>
+
+          <label for="taskPerson">Funcionário</label>
+          <select id="taskPerson"></select>
+
+          <div id="taskEditor" class="task-editor"></div>
+
+          <form id="newTaskForm" class="inline-form">
+            <input
+              id="newTask"
+              placeholder="Nova tarefa..."
+              required
+            >
+
+            <button class="primary small">
+              Adicionar tarefa
+            </button>
+          </form>
+
+        </div>
+
+        <!-- ACOMPANHAMENTO -->
+
+        <div id="tab-tracking" class="tab-content hidden">
+
+          <div class="section-title compact">
+            <div>
+              <h3>Acompanhamento diário</h3>
+              <p class="muted">
+                Veja quem concluiu, quem deixou tarefas pendentes
+                e quem não registrou o checklist.
+              </p>
+            </div>
+
+            <input type="date" id="trackingDate">
+          </div>
+
+          <div id="trackingSummary"></div>
+          <div id="trackingList"></div>
+
+        </div>
+
+        <!-- HISTÓRICO -->
+
+        <div id="tab-history" class="tab-content hidden">
+
+          <div class="section-title compact">
+            <h3>Checklists salvos</h3>
+
+            <button class="secondary small" id="exportHistory">
+              Exportar histórico (.json)
+            </button>
+          </div>
+
+          <div id="historyList"></div>
+
+        </div>
+
+        <!-- CONFIGURAÇÕES -->
+
+        <div id="tab-settings" class="tab-content hidden">
+
+          <div class="panel settings-panel">
+
+            <h3>Senha administrativa</h3>
+
+            <p>
+              Altere a senha usada para acessar a administração.
+            </p>
+
+            <form id="changeAdminPassword">
+
+              <label for="newAdminPassword">Nova senha</label>
+
+              <input
+                id="newAdminPassword"
+                type="password"
+                minlength="6"
+                required
+              >
+
+              <button class="primary small">
+                Salvar nova senha
+              </button>
+
+            </form>
+          </div>
+
+          <div class="warning">
+            <b>Importante sobre os dados locais</b>
+
+            <p>
+              Os registros ficam neste navegador e neste computador.
+              Limpar os dados do navegador ou trocar de computador
+              pode apagar ou deixar os registros indisponíveis.
+              Faça cópias de segurança regularmente.
+            </p>
+          </div>
+
+          <button class="danger-button" id="backupAll">
+            Baixar cópia de segurança completa
+          </button>
+
+        </div>
+
+      </section>
+
+    </section>
+
+    <footer>
+      VetCheck • UVet Metalúrgico • Sistema interno
+    </footer>
+
+  </main>
+</div>
+
+<script src="src/app.js"></script>
+
+</body>
+</html>
